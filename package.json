@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/swc-win32-ia32-msvc": "^14.0.2",
     "@types/dotenv": "^8.2.0",
     "@types/mongodb": "^4.0.7",
     "axios": "^1.6.0",
