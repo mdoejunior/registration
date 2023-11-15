@@ -10,24 +10,31 @@ type UserDetails = {
     address: string;
     phoneNumber: string;
     location: string;
-    hasParents: boolean;
-    parentFirstName: string;
-    parentLastName: string;
-    parentPhoneNumber: string;
+    hasBothParents: false,
+    hasOneParent: false,
+    hasNoParents: false,
+    firstParentFirstName: string,
+    firstParentLastName: string,
+    firstParentPhoneNumber: string,
+    firstParentAddress: string,
+    firstParentGender: "male" | "female" | '',
+    secondParentFirstName: string,
+    secondParentLastName: string,
+    secondParentPhoneNumber: string,
+    secondParentAddress: string,
+    secondParentGender: "male" | "female" | '',
     nextOfKin1FirstName: string;
     nextOfKin1LastName: string;
     nextOfKin1PhoneNumber: string;
     nextOfKin1Address: string;
-    nextOfKin1Relation:string;
+    nextOfKin1Relation: string;
     nextOfKin2FirstName: string;
     nextOfKin2LastName: string;
     nextOfKin2PhoneNumber: string;
-    nextOfKin2Relation:string;
+    nextOfKin2Relation: string;
     nextOfKin2Address: string;
-    parentAddress:string;
-    parentGender: 'male' | 'female' | '';
-
-
+    nextOfKin1Gender: "male" | "female" | '',
+    nextOfKin2Gender: "male" | "female" | '',
 };
 
 const UserForm: React.FC = () => {
@@ -39,23 +46,31 @@ const UserForm: React.FC = () => {
         address: '',
         phoneNumber: '',
         location: '',
-        hasParents: false,
-        parentFirstName: '',
-        parentLastName: '',
-        parentPhoneNumber: '',
+        hasBothParents: false,
+        hasOneParent: false,
+        hasNoParents: false,
+        firstParentFirstName: '',
+        firstParentLastName: '',
+        firstParentPhoneNumber: '',
+        firstParentAddress: '',
+        firstParentGender: '',
+        secondParentFirstName: '',
+        secondParentLastName: '',
+        secondParentPhoneNumber: '',
+        secondParentAddress: '',
+        secondParentGender: '',
         nextOfKin1FirstName: '',
         nextOfKin1LastName: '',
         nextOfKin1PhoneNumber: '',
         nextOfKin1Address: '',
-        nextOfKin1Relation:'',
+        nextOfKin1Relation: '',
         nextOfKin2FirstName: '',
         nextOfKin2LastName: '',
         nextOfKin2PhoneNumber: '',
         nextOfKin2Address: '',
-        nextOfKin2Relation:'',
-        parentAddress:'',
-        parentGender: ''
-
+        nextOfKin2Relation: '',
+        nextOfKin1Gender: '',
+        nextOfKin2Gender: ''
     });
 
     const [confirmation, setConfirmation] = useState(false);
@@ -67,7 +82,7 @@ const UserForm: React.FC = () => {
         setFormData({...formData, [name]: value});
     };
 
-    const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleBothParentsCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
         const {name, checked} = e.target;
         setFormData({...formData, [name]: checked});
 
@@ -75,22 +90,99 @@ const UserForm: React.FC = () => {
         if (!checked) {
             setFormData({
                 ...formData,
-                hasParents: false,
-                parentFirstName: '',
-                parentLastName: '',
-                parentPhoneNumber: '',
-                parentAddress:'',
-                parentGender:''
+                hasBothParents: false,
+                firstParentFirstName: '',
+                firstParentLastName: '',
+                firstParentPhoneNumber: '',
+                firstParentAddress: '',
+                firstParentGender: '',
+                secondParentFirstName: '',
+                secondParentLastName: '',
+                secondParentPhoneNumber: '',
+                secondParentAddress: '',
+                secondParentGender: ''
             });
         }
     };
 
-    const handleGenderChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        if (value === 'male' || value === 'female' || value === '') {
-            setFormData({ ...formData, parentGender: value as '' | 'male' | 'female' });
+
+    const handleOneParentsCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, checked} = e.target;
+        setFormData({...formData, [name]: checked});
+
+        // If the user doesn't have parents, clear parent fields
+        if (!checked) {
+            setFormData({
+                ...formData,
+                hasOneParent: false,
+                firstParentFirstName: '',
+                firstParentLastName: '',
+                firstParentPhoneNumber: '',
+                firstParentAddress: '',
+                firstParentGender: '',
+                nextOfKin1FirstName: '',
+                nextOfKin1LastName: '',
+                nextOfKin1PhoneNumber: '',
+                nextOfKin1Address: '',
+                nextOfKin1Relation: '',
+                nextOfKin1Gender: ''
+            });
         }
     };
+
+    const handleNoParentsCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, checked} = e.target;
+        setFormData({...formData, [name]: checked});
+        // If the user doesn't have parents, clear parent fields
+        if (!checked) {
+            setFormData({
+                ...formData,
+                hasNoParents: false,
+                nextOfKin1FirstName: '',
+                nextOfKin1LastName: '',
+                nextOfKin1PhoneNumber: '',
+                nextOfKin1Address: '',
+                nextOfKin1Relation: '',
+                nextOfKin2FirstName: '',
+                nextOfKin2LastName: '',
+                nextOfKin2PhoneNumber: '',
+                nextOfKin2Address: '',
+                nextOfKin2Relation: '',
+                nextOfKin1Gender: '',
+                nextOfKin2Gender: ''
+            });
+        }
+    };
+
+    const handle1GenderChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {value} = e.target;
+        if (value === 'male' || value === 'female' || value === '') {
+            setFormData({...formData, firstParentGender: value as '' | 'male' | 'female'});
+        }
+    };
+
+    const handle2GenderChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {value} = e.target;
+        if (value === 'male' || value === 'female' || value === '') {
+            setFormData({...formData, secondParentGender: value as '' | 'male' | 'female'});
+        }
+    };
+
+
+    const handleKin1GenderChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {value} = e.target;
+        if (value === 'male' || value === 'female' || value === '') {
+            setFormData({...formData, nextOfKin1Gender: value as '' | 'male' | 'female'});
+        }
+    };
+
+    const handleKin2GenderChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {value} = e.target;
+        if (value === 'male' || value === 'female' || value === '') {
+            setFormData({...formData, nextOfKin2Gender: value as '' | 'male' | 'female'});
+        }
+    };
+
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -115,22 +207,31 @@ const UserForm: React.FC = () => {
                 address: '',
                 phoneNumber: '',
                 location: '',
-                hasParents: false,
-                parentFirstName: '',
-                parentLastName: '',
-                parentPhoneNumber: '',
+                hasBothParents: false,
+                hasOneParent: false,
+                hasNoParents: false,
+                firstParentFirstName: '',
+                firstParentLastName: '',
+                firstParentPhoneNumber: '',
+                firstParentAddress: '',
+                firstParentGender: '',
+                secondParentFirstName: '',
+                secondParentLastName: '',
+                secondParentPhoneNumber: '',
+                secondParentAddress: '',
+                secondParentGender: '',
                 nextOfKin1FirstName: '',
                 nextOfKin1LastName: '',
                 nextOfKin1PhoneNumber: '',
                 nextOfKin1Address: '',
-                nextOfKin1Relation:'',
+                nextOfKin1Relation: '',
                 nextOfKin2FirstName: '',
                 nextOfKin2LastName: '',
                 nextOfKin2PhoneNumber: '',
                 nextOfKin2Address: '',
-                nextOfKin2Relation:'',
-                parentAddress:'',
-                parentGender : ''
+                nextOfKin2Relation: '',
+                nextOfKin1Gender: '',
+                nextOfKin2Gender: ''
             });
             setConfirmation(false);
             setTimeout(() => {
@@ -249,28 +350,54 @@ const UserForm: React.FC = () => {
                             <label className="block text-gray-600">
                                 <input
                                     type="checkbox"
-                                    name="hasParents"
-                                    checked={formData.hasParents}
-                                    onChange={handleCheckboxChange}
+                                    name="hasBothParents"
+                                    checked={formData.hasBothParents}
+                                    onChange={handleBothParentsCheckboxChange}
                                     className="mr-2"
                                 />
-                                I have parents
+                                I have Both parents
                             </label>
                         </div>
 
-                        {formData.hasParents ? (
+                        <div className="mb-4 col-span-3">
+                            <label className="block text-gray-600">
+                                <input
+                                    type="checkbox"
+                                    name="hasOneParent"
+                                    checked={formData.hasOneParent}
+                                    onChange={handleOneParentsCheckboxChange}
+                                    className="mr-2"
+                                />
+                                I have One parent
+                            </label>
+                        </div>
+
+                        <div className="mb-4 col-span-3">
+                            <label className="block text-gray-600">
+                                <input
+                                    type="checkbox"
+                                    name="hasNoParents"
+                                    checked={formData.hasNoParents}
+                                    onChange={handleNoParentsCheckboxChange}
+                                    className="mr-2"
+                                />
+                                I have No parents
+                            </label>
+                        </div>
+
+                        {formData.hasBothParents && (
                             <>
                                 {/* Parent details */}
                                 <div className="mb-4 col-span-3">
-                                    <label className="block text-gray-600">Parent's Gender:</label>
+                                    <label className="block text-gray-600">First Parent's Gender:</label>
                                     <div className="flex items-center">
                                         <label className="mr-4 flex items-center">
                                             <input
                                                 type="radio"
-                                                name="parentGender"
+                                                name="firstParentGender"
                                                 value="male"
-                                                checked={formData.parentGender === 'male'}
-                                                onChange={handleGenderChange}
+                                                checked={formData.firstParentGender === 'male'}
+                                                onChange={handle1GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Male</span>
@@ -278,10 +405,10 @@ const UserForm: React.FC = () => {
                                         <label className="flex items-center">
                                             <input
                                                 type="radio"
-                                                name="parentGender"
+                                                name="firstParentGender"
                                                 value="female"
-                                                checked={formData.parentGender === 'female'}
-                                                onChange={handleGenderChange}
+                                                checked={formData.firstParentGender === 'female'}
+                                                onChange={handle1GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Female</span>
@@ -290,13 +417,13 @@ const UserForm: React.FC = () => {
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="parentFirstName" className="block text-gray-600">
-                                        Parent's First Name
+                                        First Parent's First Name
                                     </label>
                                     <input
                                         type="text"
-                                        id="parentFirstName"
-                                        name="parentFirstName"
-                                        value={formData.parentFirstName}
+                                        id="firstParentFirstName"
+                                        name="firstParentFirstName"
+                                        value={formData.firstParentFirstName}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -305,13 +432,13 @@ const UserForm: React.FC = () => {
 
                                 <div className="mb-4">
                                     <label htmlFor="parentLastName" className="block text-gray-600">
-                                        Parent's Last Name
+                                        First Parent's Last Name
                                     </label>
                                     <input
                                         type="text"
-                                        id="parentLastName"
-                                        name="parentLastName"
-                                        value={formData.parentLastName}
+                                        id="firstParentLastName"
+                                        name="firstParentLastName"
+                                        value={formData.firstParentLastName}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -320,13 +447,13 @@ const UserForm: React.FC = () => {
 
                                 <div className="mb-4">
                                     <label htmlFor="parentPhoneNumber" className="block text-gray-600">
-                                        Parent's Phone Number
+                                        First Parent's Phone Number
                                     </label>
                                     <input
                                         type="tel"
-                                        id="parentPhoneNumber"
-                                        name="parentPhoneNumber"
-                                        value={formData.parentPhoneNumber}
+                                        id="firstParentPhoneNumber"
+                                        name="firstParentPhoneNumber"
+                                        value={formData.firstParentPhoneNumber}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -335,22 +462,225 @@ const UserForm: React.FC = () => {
 
                                 <div className="mb-4">
                                     <label htmlFor="parentPhoneNumber" className="block text-gray-600">
-                                        Parent's Address
+                                        First Parent's Address
                                     </label>
                                     <input
                                         type="text"
-                                        id="parentAddress"
-                                        name="parentAddress"
-                                        value={formData.parentAddress}
+                                        id="firstParentAddress"
+                                        name="firstParentAddress"
+                                        value={formData.firstParentAddress}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4 col-span-3">
+                                    <label className="block text-gray-600">Second Parent's Gender:</label>
+                                    <div className="flex items-center">
+                                        <label className="mr-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="secondParentGender"
+                                                value="male"
+                                                checked={formData.secondParentGender === 'male'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Male</span>
+                                        </label>
+                                        <label className="flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="secondParentGender"
+                                                value="female"
+                                                checked={formData.secondParentGender === 'female'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Female</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="parentFirstName" className="block text-gray-600">
+                                        Second Parent's First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="secondParentFirstName"
+                                        name="secondParentFirstName"
+                                        value={formData.secondParentFirstName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="parentLastName" className="block text-gray-600">
+                                        Second Parent's Last Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="secondParentLastName"
+                                        name="secondParentLastName"
+                                        value={formData.secondParentLastName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="parentPhoneNumber" className="block text-gray-600">
+                                        Second Parent's Phone Number
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="secondParentPhoneNumber"
+                                        name="secondParentPhoneNumber"
+                                        value={formData.secondParentPhoneNumber}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="parentPhoneNumber" className="block text-gray-600">
+                                        Second Parent's Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="secondParentAddress"
+                                        name="pasecondParentAddressrentAddress"
+                                        value={formData.secondParentAddress}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                             </>
-                        ) : (
+                        )}
+
+                        {formData.hasOneParent && (
                             <>
-                                {/* Next of kin details */}
+                                {/* Parent details */}
+                                <div className="mb-4 col-span-3">
+                                    <label className="block text-gray-600">First Parent's Gender:</label>
+                                    <div className="flex items-center">
+                                        <label className="mr-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="firstParentGender"
+                                                value="male"
+                                                checked={formData.firstParentGender === 'male'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Male</span>
+                                        </label>
+                                        <label className="flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="firstParentGender"
+                                                value="female"
+                                                checked={formData.firstParentGender === 'female'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Female</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="parentFirstName" className="block text-gray-600">
+                                        First Parent's First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="firstParentFirstName"
+                                        name="firstParentFirstName"
+                                        value={formData.firstParentFirstName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="parentLastName" className="block text-gray-600">
+                                        First Parent's Last Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="firstParentLastName"
+                                        name="firstParentLastName"
+                                        value={formData.firstParentLastName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="parentPhoneNumber" className="block text-gray-600">
+                                        First Parent's Phone Number
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="firstParentPhoneNumber"
+                                        name="firstParentPhoneNumber"
+                                        value={formData.firstParentPhoneNumber}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="parentPhoneNumber" className="block text-gray-600">
+                                        First Parent's Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="firstParentAddress"
+                                        name="firstParentAddress"
+                                        value={formData.firstParentAddress}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="mb-4 col-span-3">
+                                    <label className="block text-gray-600">First Next Of Kin's Gender:</label>
+                                    <div className="flex items-center">
+                                        <label className="mr-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="nextOfKin1Gender"
+                                                value="male"
+                                                checked={formData.nextOfKin1Gender === 'male'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Male</span>
+                                        </label>
+                                        <label className="flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="nextOfKin1Gender"
+                                                value="female"
+                                                checked={formData.nextOfKin1Gender === 'female'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Female</span>
+                                        </label>
+                                    </div>
+                                </div>
                                 <div className="mb-4">
                                     <label htmlFor="nextOfKinFirstName" className="block text-gray-600">
                                         First Next of Kin's First Name
@@ -423,6 +753,138 @@ const UserForm: React.FC = () => {
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                                     />
+                                </div>
+                            </>
+                        )}
+
+                        {formData.hasNoParents && (<>
+                                {/* Next of kin details */}
+                                <div className="mb-4 col-span-3">
+                                    <label className="block text-gray-600">First Next Of Kin's Gender:</label>
+                                    <div className="flex items-center">
+                                        <label className="mr-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="nextOfKin1Gender"
+                                                value="male"
+                                                checked={formData.nextOfKin1Gender === 'male'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Male</span>
+                                        </label>
+                                        <label className="flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="nextOfKin1Gender"
+                                                value="female"
+                                                checked={formData.nextOfKin1Gender === 'female'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Female</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinFirstName" className="block text-gray-600">
+                                        First Next of Kin's First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin1FirstName"
+                                        name="nextOfKin1FirstName"
+                                        value={formData.nextOfKin1FirstName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinLastName" className="block text-gray-600">
+                                        First Next of Kin's Last Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin1LastName"
+                                        name="nextOfKin1LastName"
+                                        value={formData.nextOfKin1LastName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinPhoneNumber" className="block text-gray-600">
+                                        First Next of Kin's Phone Number
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="nextOfKin1PhoneNumber"
+                                        name="nextOfKin1PhoneNumber"
+                                        value={formData.nextOfKin1PhoneNumber}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinAddress" className="block text-gray-600">
+                                        First Next of Kin's Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin1Address"
+                                        name="nextOfKin1Address"
+                                        value={formData.nextOfKin1Address}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinAddress" className="block text-gray-600">
+                                        First Next of Kin's Relation
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin1Relation"
+                                        name="nextOfKin1Relation"
+                                        value={formData.nextOfKin1Relation}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="mb-4 col-span-3">
+                                    <label className="block text-gray-600">Second Next Of Kin's Gender:</label>
+                                    <div className="flex items-center">
+                                        <label className="mr-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="nextOfKin2Gender"
+                                                value="male"
+                                                checked={formData.nextOfKin2Gender === 'male'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Male</span>
+                                        </label>
+                                        <label className="flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="nextOfKi21Gender"
+                                                value="female"
+                                                checked={formData.nextOfKin2Gender === 'female'}
+                                                onChange={handle1GenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Female</span>
+                                        </label>
+                                    </div>
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="nextOfKinFirstName" className="block text-gray-600">
@@ -500,7 +962,7 @@ const UserForm: React.FC = () => {
                             </>
                         )}
 
-                        <div className="text-center col-span-3" >
+                        <div className="text-center col-span-3">
                             <button
                                 type="submit"
                                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
@@ -554,7 +1016,8 @@ const UserForm: React.FC = () => {
                 </AnimatePresence>
             </div>
         </div>
-    );
+    )
+        ;
 };
 
 export default UserForm;
