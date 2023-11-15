@@ -14,11 +14,20 @@ type UserDetails = {
     parentFirstName: string;
     parentLastName: string;
     parentPhoneNumber: string;
-    nextOfKinFirstName: string;
-    nextOfKinLastName: string;
-    nextOfKinPhoneNumber: string;
-    nextOfKinAddress: string;
-    parentAddress:string
+    nextOfKin1FirstName: string;
+    nextOfKin1LastName: string;
+    nextOfKin1PhoneNumber: string;
+    nextOfKin1Address: string;
+    nextOfKin1Relation:string;
+    nextOfKin2FirstName: string;
+    nextOfKin2LastName: string;
+    nextOfKin2PhoneNumber: string;
+    nextOfKin2Relation:string;
+    nextOfKin2Address: string;
+    parentAddress:string;
+    parentGender: 'male' | 'female' | '';
+
+
 };
 
 const UserForm: React.FC = () => {
@@ -34,11 +43,19 @@ const UserForm: React.FC = () => {
         parentFirstName: '',
         parentLastName: '',
         parentPhoneNumber: '',
-        nextOfKinFirstName: '',
-        nextOfKinLastName: '',
-        nextOfKinPhoneNumber: '',
-        nextOfKinAddress: '',
-        parentAddress:''
+        nextOfKin1FirstName: '',
+        nextOfKin1LastName: '',
+        nextOfKin1PhoneNumber: '',
+        nextOfKin1Address: '',
+        nextOfKin1Relation:'',
+        nextOfKin2FirstName: '',
+        nextOfKin2LastName: '',
+        nextOfKin2PhoneNumber: '',
+        nextOfKin2Address: '',
+        nextOfKin2Relation:'',
+        parentAddress:'',
+        parentGender: ''
+
     });
 
     const [confirmation, setConfirmation] = useState(false);
@@ -62,8 +79,16 @@ const UserForm: React.FC = () => {
                 parentFirstName: '',
                 parentLastName: '',
                 parentPhoneNumber: '',
-                parentAddress:''
+                parentAddress:'',
+                parentGender:''
             });
+        }
+    };
+
+    const handleGenderChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        if (value === 'male' || value === 'female' || value === '') {
+            setFormData({ ...formData, parentGender: value as '' | 'male' | 'female' });
         }
     };
 
@@ -94,11 +119,18 @@ const UserForm: React.FC = () => {
                 parentFirstName: '',
                 parentLastName: '',
                 parentPhoneNumber: '',
-                nextOfKinFirstName: '',
-                nextOfKinLastName: '',
-                nextOfKinPhoneNumber: '',
-                nextOfKinAddress: '',
-                parentAddress:''
+                nextOfKin1FirstName: '',
+                nextOfKin1LastName: '',
+                nextOfKin1PhoneNumber: '',
+                nextOfKin1Address: '',
+                nextOfKin1Relation:'',
+                nextOfKin2FirstName: '',
+                nextOfKin2LastName: '',
+                nextOfKin2PhoneNumber: '',
+                nextOfKin2Address: '',
+                nextOfKin2Relation:'',
+                parentAddress:'',
+                parentGender : ''
             });
             setConfirmation(false);
             setTimeout(() => {
@@ -123,7 +155,7 @@ const UserForm: React.FC = () => {
                             {registrationMessage}
                         </h1>
                     )}
-                    <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
+                    <form className="grid grid-cols-3 gap-4" onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="firstName" className="block text-gray-600">
                                 First Name
@@ -213,7 +245,7 @@ const UserForm: React.FC = () => {
                             />
                         </div>
 
-                        <div className="mb-4 col-span-2">
+                        <div className="mb-4 col-span-3">
                             <label className="block text-gray-600">
                                 <input
                                     type="checkbox"
@@ -229,6 +261,33 @@ const UserForm: React.FC = () => {
                         {formData.hasParents ? (
                             <>
                                 {/* Parent details */}
+                                <div className="mb-4 col-span-3">
+                                    <label className="block text-gray-600">Parent's Gender:</label>
+                                    <div className="flex items-center">
+                                        <label className="mr-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="parentGender"
+                                                value="male"
+                                                checked={formData.parentGender === 'male'}
+                                                onChange={handleGenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Male</span>
+                                        </label>
+                                        <label className="flex items-center">
+                                            <input
+                                                type="radio"
+                                                name="parentGender"
+                                                value="female"
+                                                checked={formData.parentGender === 'female'}
+                                                onChange={handleGenderChange}
+                                                className="mr-2"
+                                            />
+                                            <span className="text-gray-700">Female</span>
+                                        </label>
+                                    </div>
+                                </div>
                                 <div className="mb-4">
                                     <label htmlFor="parentFirstName" className="block text-gray-600">
                                         Parent's First Name
@@ -294,13 +353,13 @@ const UserForm: React.FC = () => {
                                 {/* Next of kin details */}
                                 <div className="mb-4">
                                     <label htmlFor="nextOfKinFirstName" className="block text-gray-600">
-                                        Next of Kin's First Name
+                                        First Next of Kin's First Name
                                     </label>
                                     <input
                                         type="text"
-                                        id="nextOfKinFirstName"
-                                        name="nextOfKinFirstName"
-                                        value={formData.nextOfKinFirstName}
+                                        id="nextOfKin1FirstName"
+                                        name="nextOfKin1FirstName"
+                                        value={formData.nextOfKin1FirstName}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -309,13 +368,13 @@ const UserForm: React.FC = () => {
 
                                 <div className="mb-4">
                                     <label htmlFor="nextOfKinLastName" className="block text-gray-600">
-                                        Next of Kin's Last Name
+                                        First Next of Kin's Last Name
                                     </label>
                                     <input
                                         type="text"
-                                        id="nextOfKinLastName"
-                                        name="nextOfKinLastName"
-                                        value={formData.nextOfKinLastName}
+                                        id="nextOfKin1LastName"
+                                        name="nextOfKin1LastName"
+                                        value={formData.nextOfKin1LastName}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -324,13 +383,13 @@ const UserForm: React.FC = () => {
 
                                 <div className="mb-4">
                                     <label htmlFor="nextOfKinPhoneNumber" className="block text-gray-600">
-                                        Next of Kin's Phone Number
+                                        First Next of Kin's Phone Number
                                     </label>
                                     <input
                                         type="tel"
-                                        id="nextOfKinPhoneNumber"
-                                        name="nextOfKinPhoneNumber"
-                                        value={formData.nextOfKinPhoneNumber}
+                                        id="nextOfKin1PhoneNumber"
+                                        name="nextOfKin1PhoneNumber"
+                                        value={formData.nextOfKin1PhoneNumber}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -339,13 +398,100 @@ const UserForm: React.FC = () => {
 
                                 <div className="mb-4">
                                     <label htmlFor="nextOfKinAddress" className="block text-gray-600">
-                                        Next of Kin's Address
+                                        First Next of Kin's Address
                                     </label>
                                     <input
                                         type="text"
-                                        id="nextOfKinAddress"
-                                        name="nextOfKinAddress"
-                                        value={formData.nextOfKinAddress}
+                                        id="nextOfKin1Address"
+                                        name="nextOfKin1Address"
+                                        value={formData.nextOfKin1Address}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinAddress" className="block text-gray-600">
+                                        First Next of Kin's Relation
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin1Relation"
+                                        name="nextOfKin1Relation"
+                                        value={formData.nextOfKin1Relation}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinFirstName" className="block text-gray-600">
+                                        Second Next of Kin's First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin2FirstName"
+                                        name="nextOfKin2FirstName"
+                                        value={formData.nextOfKin2FirstName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinLastName" className="block text-gray-600">
+                                        Second Next of Kin's Last Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin2LastName"
+                                        name="nextOfKin2LastName"
+                                        value={formData.nextOfKin2LastName}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinPhoneNumber" className="block text-gray-600">
+                                        Second Next of Kin's Phone Number
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="nextOfKin2PhoneNumber"
+                                        name="nextOfKin2PhoneNumber"
+                                        value={formData.nextOfKin2PhoneNumber}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinAddress" className="block text-gray-600">
+                                        Second Next of Kin's Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin2Address"
+                                        name="nextOfKin2Address"
+                                        value={formData.nextOfKin2Address}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="nextOfKinAddress" className="block text-gray-600">
+                                        Second Next of Kin's Relation
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="nextOfKin2Relation"
+                                        name="nextOfKin2Relation"
+                                        value={formData.nextOfKin2Relation}
                                         onChange={handleChange}
                                         required
                                         className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
@@ -354,7 +500,7 @@ const UserForm: React.FC = () => {
                             </>
                         )}
 
-                        <div className="text-center col-span-2" >
+                        <div className="text-center col-span-3" >
                             <button
                                 type="submit"
                                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
