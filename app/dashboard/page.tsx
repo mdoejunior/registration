@@ -38,7 +38,7 @@ type UserDetails = {
 };
 
 const UserForm: React.FC = () => {
-    const [isLoading, setisLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formData, setFormData] = useState<UserDetails>({
         firstName: '',
         middleName: '',
@@ -190,7 +190,7 @@ const UserForm: React.FC = () => {
     };
 
     const handleConfirm = async () => {
-        setisLoading(true);
+        setIsLoading(true);
         try {
             const response = await axios.post('/api/masasi', formData);
             console.log('Data submitted successfully:', response.data);
@@ -199,7 +199,7 @@ const UserForm: React.FC = () => {
         } catch (error) {
             console.error('Error submitting data:', error);
         } finally {
-            setisLoading(false);
+            setIsLoading(false);
             setFormData({
                 firstName: '',
                 middleName: '',
@@ -484,7 +484,7 @@ const UserForm: React.FC = () => {
                                                 name="secondParentGender"
                                                 value="male"
                                                 checked={formData.secondParentGender === 'male'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handle2GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Male</span>
@@ -495,7 +495,7 @@ const UserForm: React.FC = () => {
                                                 name="secondParentGender"
                                                 value="female"
                                                 checked={formData.secondParentGender === 'female'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handle2GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Female</span>
@@ -555,7 +555,7 @@ const UserForm: React.FC = () => {
                                     <input
                                         type="text"
                                         id="secondParentAddress"
-                                        name="pasecondParentAddressrentAddress"
+                                        name="secondParentAddress"
                                         value={formData.secondParentAddress}
                                         onChange={handleChange}
                                         required
@@ -663,7 +663,7 @@ const UserForm: React.FC = () => {
                                                 name="nextOfKin1Gender"
                                                 value="male"
                                                 checked={formData.nextOfKin1Gender === 'male'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handleKin1GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Male</span>
@@ -674,7 +674,7 @@ const UserForm: React.FC = () => {
                                                 name="nextOfKin1Gender"
                                                 value="female"
                                                 checked={formData.nextOfKin1Gender === 'female'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handleKin1GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Female</span>
@@ -768,7 +768,7 @@ const UserForm: React.FC = () => {
                                                 name="nextOfKin1Gender"
                                                 value="male"
                                                 checked={formData.nextOfKin1Gender === 'male'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handleKin1GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Male</span>
@@ -779,7 +779,7 @@ const UserForm: React.FC = () => {
                                                 name="nextOfKin1Gender"
                                                 value="female"
                                                 checked={formData.nextOfKin1Gender === 'female'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handleKin1GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Female</span>
@@ -868,7 +868,7 @@ const UserForm: React.FC = () => {
                                                 name="nextOfKin2Gender"
                                                 value="male"
                                                 checked={formData.nextOfKin2Gender === 'male'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handleKin2GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Male</span>
@@ -879,7 +879,7 @@ const UserForm: React.FC = () => {
                                                 name="nextOfKi21Gender"
                                                 value="female"
                                                 checked={formData.nextOfKin2Gender === 'female'}
-                                                onChange={handle1GenderChange}
+                                                onChange={handleKin2GenderChange}
                                                 className="mr-2"
                                             />
                                             <span className="text-gray-700">Female</span>
